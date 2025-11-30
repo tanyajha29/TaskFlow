@@ -24,4 +24,30 @@
     </form>
 
 </body>
+<script>
+    document.getElementById("myForm").addEventListener("submit", function(e) {
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const age = document.getElementById("age").value.trim();
+
+        if (name.length < 3) {
+            alert("Name must be at least 3 characters.");
+            e.preventDefault();
+            return;
+        }
+
+        if (!email.includes("@")) {
+            alert("Invalid email format.");
+            e.preventDefault();
+            return;
+        }
+
+        if (age < 18) {
+            alert("Age must be at least 18.");
+            e.preventDefault();
+        }
+    });
+</script>
+
 </html>
