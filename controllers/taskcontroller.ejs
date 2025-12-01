@@ -1,66 +1,74 @@
+// controllers/taskController.js
 const Task = require('../models/task');
 
-// CREATE TASK
 exports.createTask = async (req, res) => {
   try {
-    const userId = req.user.id; // from auth middleware
-    const { title, description, status } = req.body;
+    const userId = req.userId;
+    const { title, description, status, dueDate } = req.body;
 
-    const task = await Task.create({
+    if (!title || !title.trim()) return res.status(400).json({ error: 'Title required' });
+
+    const t = new Task({
       user: userId,
-      title,
-      description,
-      status: status || "Pending",
+      title: title.trim(),
+      description: description || '',
+      status: status || 'Pending',
+      dueDate: dueDate ? new Date(dueDate) : undefined,
       updatedAt: new Date()
     });
 
-    res.json(task);
+    await t.save();
+    res.status(201).json(t);
   } catch (err) {
-    console.error("Create Task Error:", err);
-    res.status(500).json({ error: "Failed to create task" });
+    console.error('createTask error:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
-// GET ALL TASKS OF USER
 exports.getTasks = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const tasks = await Task.find({ user: userId }).sort({ createdAt: -1 });
+    const userId = req.userId;
+    const tasks = await Task.find({ user: userId }).sort('-createdAt');
     res.json(tasks);
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch tasks" });
+    console.error('getTasks error:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
-// UPDATE TASK
 exports.updateTask = async (req, res) => {
   try {
-    const task = await Task.findOneAndUpdate(
-      { _id: req.params.id, user: req.user.id },
-      { ...req.body, updatedAt: new Date() },
-      { new: true }
-    );
+    const userId = req.userId;
+    const id = req.params.id;
 
-    if (!task) return res.status(404).json({ error: "Task not found" });
+    const task = await Task.findOne({ _id: id, user: userId });
+    if (!task) return res.status(404).json({ error: 'Task not found' });
 
+    if (req.body.title !== undefined) task.title = req.body.title;
+    if (req.body.description !== undefined) task.description = req.body.description;
+    if (req.body.status !== undefined) task.status = req.body.status;
+    if (req.body.dueDate !== undefined) task.dueDate = req.body.dueDate ? new Date(req.body.dueDate) : undefined;
+
+    task.updatedAt = new Date();
+    await task.save();
     res.json(task);
   } catch (err) {
-    res.status(500).json({ error: "Update failed" });
+    console.error('updateTask error:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
-// DELETE TASK
 exports.deleteTask = async (req, res) => {
   try {
-    const task = await Task.findOneAndDelete({
-      _id: req.params.id,
-      user: req.user.id
-    });
+    const userId = req.userId;
+    const id = req.params.id;
 
-    if (!task) return res.status(404).json({ error: "Task not found" });
+    const result = await Task.deleteOne({ _id: id, user: userId });
+    if (result.deletedCount === 0) return res.status(404).json({ error: 'Task not found' });
 
-    res.json({ success: true });
+    res.json({ ok: true });
   } catch (err) {
-    res.status(500).json({ error: "Delete failed" });
+    console.error('deleteTask error:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 };

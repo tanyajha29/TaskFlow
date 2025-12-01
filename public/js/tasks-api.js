@@ -36,7 +36,7 @@ const ApiClient = (function () {
     return res.json();
   }
 
-  // Accepts (title, description, status, dueDate ISOString)
+  // createTask(title, description, status, dueDateISO)
   async function createTask(title, description, status = 'Pending', dueDate = null) {
     const res = await fetch(`${apiBase}/tasks`, {
       method: 'POST',
