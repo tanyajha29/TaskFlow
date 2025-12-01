@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Task Added</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/material.css">
+</head>
+<body class="grey lighten-4">
+  <main class="container" style="margin-top:40px;">
+    <div class="row">
+      <div class="col s12 m8 offset-m2">
+        <div class="card green lighten-5">
+          <div class="card-content">
+            <h5>Task added successfully ✔</h5>
+            <p><strong>Title:</strong> <%= task.title %></p>
+            <p><strong>Description:</strong> <%= task.description %></p>
+            <p><small>Created at: <%= task.createdAt %></small></p>
+            <a href="/" class="btn">Add another</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

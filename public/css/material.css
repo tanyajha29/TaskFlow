@@ -1,0 +1,17 @@
+/* Simple Material tweaks + subtle animations */
+body { font-family: "Roboto", sans-serif; }
+
+/* card hover lift */
+.card.hoverable {
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.card.hoverable:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+/* small fade-in on main */
+main.container { animation: fadeIn .45s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px);} to {opacity:1; transform:none;} }
+
+/* toast style fallback (Materialize uses M.toast) */
