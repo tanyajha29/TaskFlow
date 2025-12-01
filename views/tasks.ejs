@@ -10,22 +10,8 @@
 </head>
 
 <body class="dark-bg">
+  <% include partials/nav %>
 
-  <!-- TOP NAV -->
-  <nav class="nav-wrapper gradient-bg">
-    <div class="container nav-inner">
-      <a href="/" class="brand-logo">TaskFlow</a>
-      <div class="nav-right">
-        <div id="weekRange" class="white-text"></div>
-        <a id="prevWeek" class="btn-flat white-text"><i class="material-icons">chevron_left</i></a>
-        <a id="nextWeek" class="btn-flat white-text"><i class="material-icons">chevron_right</i></a>
-        <a id="todayBtn" class="btn-flat white-text">Today</a>
-        <a id="addQuick" class="btn-floating btn-small gradient-bg" title="Add quick task"><i class="material-icons">add</i></a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- MAIN -->
   <main class="container week-container">
 
     <!-- STATS (top) -->
@@ -50,14 +36,11 @@
 
     <!-- WEEK SCHEDULER -->
     <section class="scheduler">
-
-      <!-- header: days -->
       <div class="timegrid header">
         <div class="time-col head-col"></div>
         <div id="dayHeaders" class="days-row"></div>
       </div>
 
-      <!-- grid: time slots -->
       <div id="timeGrid" class="timegrid body">
         <div class="time-col left-col"></div>
         <div id="slotsGrid" class="slots-grid"></div>
@@ -106,7 +89,7 @@
     </div>
   </div>
 
-  <!-- Materialize + client scripts -->
+  <!-- scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="/js/tasks-api.js"></script>
   <script src="/js/dashboard.js"></script>
