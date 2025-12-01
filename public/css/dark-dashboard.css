@@ -1,0 +1,73 @@
+/* dark-dashboard.css - Theme A extension */
+
+/* base */
+:root { --accent1: #2a5298; --accent2: #6a3cff; --glass: rgba(255,255,255,0.04); }
+
+body.dark-bg { background: linear-gradient(180deg,#0b0f1f 0%, #071028 100%); color: #e6edf3; font-family: "Poppins", "Helvetica", sans-serif; min-height:100vh; }
+.gradient-bg { background: linear-gradient(135deg, #1e3c72, #2a5298); }
+
+/* overall layout */
+.dashboard-container { display: grid; grid-template-columns: 220px 1fr 320px; gap: 24px; padding: 28px 20px; align-items: start; }
+.sidebar, .right-panel { height: calc(100vh - 140px); overflow: auto; padding-bottom: 20px; }
+
+/* sidebar */
+.sidebar .sidebar-inner { position: sticky; top: 28px; }
+.user-pill { display:flex; gap:12px; align-items:center; padding:12px; background: rgba(255,255,255,0.02); border-radius:12px; margin-bottom:18px; }
+.user-pill .avatar { width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent1),var(--accent2)); display:flex;align-items:center;justify-content:center;color:white;font-weight:700; }
+.user-pill .meta .name { font-weight:700; color:#fff; } .user-pill .meta .handle { color:#9fb2c9; font-size:12px; }
+
+/* sidebar menu */
+.menu { list-style:none; padding:8px 0; margin: 12px 0; }
+.menu li { padding:10px 12px; border-radius:8px; color:#cfe4ff; cursor:pointer; margin-bottom:6px; background:transparent; }
+.menu li.active { background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); box-shadow: 0 6px 18px rgba(42,82,152,0.08); border-left:4px solid var(--accent1); }
+
+/* center panel */
+.center-panel .panel-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.center-panel h5 { margin:0; color:#eaf4ff; }
+
+/* calendar */
+.calendar { background: var(--glass); border-radius:14px; padding:12px; box-shadow: 0 6px 22px rgba(20,30,60,0.4); }
+.calendar-header { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; color:#9fb2c9; padding:6px 8px; font-weight:600; font-size:14px; }
+.calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:12px; margin-top:10px; }
+
+/* day cell */
+.calendar-cell { min-height:120px; background: rgba(255,255,255,0.02); border-radius:10px; padding:8px; position:relative; overflow:hidden; display:flex; flex-direction:column; }
+.calendar-cell .date { position:absolute; top:8px; left:8px; font-size:12px; color:#93b5d1; }
+.calendar-cell .day-tasks { margin-top:22px; display:flex; flex-direction:column; gap:8px; }
+
+/* task chip on calendar */
+.task-chip {
+  background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border-left: 4px solid var(--accent1);
+  padding:8px 10px;
+  border-radius:8px;
+  color:#cfe4ff;
+  font-weight:600;
+  box-shadow: 0 6px 18px rgba(42,82,152,0.06);
+  cursor:pointer;
+}
+
+/* right panel cards */
+.small-card { background: rgba(255,255,255,0.02); border-radius:12px; margin-bottom:16px; }
+.small-card .card-content { color:#e6edf3; }
+
+/* recent list */
+.recent-list { list-style:none; padding:0; margin:0; }
+.recent-list li { padding:10px 8px; border-radius:8px; margin-bottom:8px; background: rgba(255,255,255,0.01); display:flex; justify-content:space-between; align-items:center; color:#d8e7f7; }
+
+/* progress */
+.progress-wrap { display:flex; flex-direction:column; align-items:center; gap:10px; padding:12px 0; }
+.progress-chart { width:120px; height:120px; border-radius:50%; background: conic-gradient(#2a5298 0 60%, rgba(255,255,255,0.06) 60% 100%); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; }
+
+/* chips */
+.chip { display:inline-block; padding:6px 10px; margin:4px 6px 4px 0; background: rgba(255,255,255,0.02); color:#bcd7f7; border-radius:20px; cursor:pointer; }
+
+/* modal styling */
+.modal.dark-card { background: #0f1620 !important; color:#fff; border-radius:12px; }
+
+/* responsive */
+@media(max-width: 992px) {
+  .dashboard-container { grid-template-columns: 1fr; }
+  .sidebar, .right-panel { display:none; }
+  .center-panel { margin: 0 12px; }
+}

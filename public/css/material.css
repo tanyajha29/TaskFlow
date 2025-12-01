@@ -1,6 +1,18 @@
-body{font-family:Roboto,Arial,Helvetica,sans-serif}
-.card.hoverable{transition:transform .22s ease,box-shadow .22s ease}
-.card.hoverable:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
-main.container{animation:fadeIn .45s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.brand-logo{font-weight:600}
+body{
+    font-family:Roboto,Arial,Helvetica,sans-serif
+}
+.card.hoverable{
+    transition:transform .22s ease,box-shadow .22s ease
+}
+.card.hoverable:hover{
+    transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,.12)
+}
+main.container{
+    animation:fadeIn .45s ease
+}
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}
+}
+.brand-logo{
+    font-weight:600
+}

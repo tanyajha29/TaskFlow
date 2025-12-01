@@ -1,25 +1,76 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Login</title><link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet"><link rel="stylesheet" href="/css/material.css"></head><body>
-<nav class="blue darken-2"><div class="nav-wrapper container"><a href="/" class="brand-logo">TaskFlow</a></div></nav>
-<main class="container"><div class="card form-card hoverable"><div class="card-content"><h5>Login</h5>
-<form id="loginForm">
-  <div class="input-field"><input id="usernameOrEmail" name="usernameOrEmail" type="text"><label for="usernameOrEmail">Username or Email</label></div>
-  <div class="input-field"><input id="password" name="password" type="password"><label for="password">Password</label></div>
-  <button class="btn" type="submit">Login</button>
-</form>
-</div></div></main>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Login | TaskFlow</title>
+
+  <!-- Materialize CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+  <!-- Custom Dark Theme -->
+  <link rel="stylesheet" href="/css/dark.css">
+</head>
+
+<body class="dark-bg">
+
+<!-- NAVBAR -->
+<nav class="nav-wrapper gradient-bg">
+  <div class="container">
+    <a href="/" class="brand-logo">TaskFlow</a>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="card form-card hoverable dark-card">
+    <div class="card-content">
+      <h5 class="white-text center">Login</h5>
+
+      <form id="loginForm">
+
+        <div class="input-field">
+          <input id="usernameOrEmail" name="usernameOrEmail" type="text">
+          <label for="usernameOrEmail">Username or Email</label>
+        </div>
+
+        <div class="input-field">
+          <input id="password" name="password" type="password">
+          <label for="password">Password</label>
+        </div>
+
+        <button class="btn-large waves-effect waves-light gradient-bg" style="width:100%; margin-top:10px;">
+          Login
+        </button>
+
+      </form>
+    </div>
+  </div>
+</main>
+
+<!-- Register Link -->
+<div class="center" style="margin-top: 10px;">
+  <a href="/register" class="white-text" style="opacity:0.7;">Don't have an account? Register</a>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="/js/tasks-api.js"></script>
+
 <script>
 document.getElementById('loginForm').addEventListener('submit', async (e)=>{
   e.preventDefault();
-  try{
-    const data = await ApiClient.login(document.getElementById('usernameOrEmail').value.trim(), document.getElementById('password').value);
-    M.toast({html:'Logged in', classes:'green lighten-1'});
-    setTimeout(()=> location.href = '/tasks', 500);
-  }catch(err){
-    const msg = err.error || (err.errors?Object.values(err.errors).join(', '): 'Login failed');
-    M.toast({html: msg, classes: 'red lighten-1'});
+
+  const usernameOrEmail = document.getElementById('usernameOrEmail').value.trim();
+  const password = document.getElementById('password').value;
+
+  try {
+    const data = await ApiClient.login(usernameOrEmail, password);
+    M.toast({html:'Logged in!', classes:'green'});
+    setTimeout(()=> location.href = '/tasks', 800);
+  } catch(err) {
+    const msg = err.error || 'Login failed';
+    M.toast({html: msg, classes:'red'});
   }
 });
 </script>
-</body></html>
+
+</body>
+</html>

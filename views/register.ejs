@@ -1,36 +1,96 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Register</title><link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet"><link rel="stylesheet" href="/css/material.css"></head><body>
-<nav class="blue darken-2"><div class="nav-wrapper container"><a href="/" class="brand-logo">TaskFlow</a></div></nav>
-<main class="container"><div class="card form-card hoverable"><div class="card-content"><h5>Create an account</h5>
-<form id="registerForm">
-  <div class="input-field"><input id="fullname" name="fullname" type="text"><label for="fullname">Full Name</label></div>
-  <div class="input-field"><input id="username" name="username" type="text"><label for="username">Username</label></div>
-  <div class="input-field"><input id="email" name="email" type="email"><label for="email">Email</label></div>
-  <div class="input-field"><input id="password" type="password" name="password"><label for="password">Password</label></div>
-  <div class="input-field"><input id="confirm_password" type="password" name="confirm_password"><label for="confirm_password">Confirm Password</label></div>
-  <button id="regBtn" class="btn">Register</button>
-</form>
-</div></div></main>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Register | TaskFlow</title>
+
+  <!-- Materialize CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+  <!-- Custom Dark Theme -->
+  <link rel="stylesheet" href="/css/dark.css">
+</head>
+
+<body class="dark-bg">
+
+<nav class="nav-wrapper gradient-bg">
+  <div class="container">
+    <a href="/" class="brand-logo">TaskFlow</a>
+  </div>
+</nav>
+
+
+<main class="container">
+  <div class="card form-card hoverable dark-card">
+    <div class="card-content">
+      <h5 class="white-text center">Create an Account</h5>
+
+      <form id="registerForm">
+
+        <div class="input-field">
+          <input id="fullname" name="fullname" type="text">
+          <label for="fullname">Full Name</label>
+        </div>
+
+        <div class="input-field">
+          <input id="username" name="username" type="text">
+          <label for="username">Username</label>
+        </div>
+
+        <div class="input-field">
+          <input id="email" name="email" type="email">
+          <label for="email">Email</label>
+        </div>
+
+        <div class="input-field">
+          <input id="password" name="password" type="password">
+          <label for="password">Password</label>
+        </div>
+
+        <div class="input-field">
+          <input id="confirm_password" name="confirm_password" type="password">
+          <label for="confirm_password">Confirm Password</label>
+        </div>
+
+        <button id="regBtn" class="btn-large waves-effect waves-light gradient-bg" style="width: 100%; margin-top: 10px;">
+          Register
+        </button>
+
+      </form>
+    </div>
+  </div>
+</main>
+
+<!-- Floating Login Link -->
+<div class="center" style="margin-top: 10px;">
+  <a href="/login" class="white-text" style="opacity: 0.7;">Already have an account? Login</a>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="/js/tasks-api.js"></script>
+
 <script>
-document.getElementById('registerForm').addEventListener('submit', async (e) => {
+document.getElementById('registerForm').addEventListener('submit', async (e)=>{
   e.preventDefault();
+
   const payload = {
-    fullname: document.getElementById('fullname').value.trim(),
-    username: document.getElementById('username').value.trim(),
-    email: document.getElementById('email').value.trim(),
-    password: document.getElementById('password').value,
-    confirm_password: document.getElementById('confirm_password').value
+    fullname: fullname.value.trim(),
+    username: username.value.trim(),
+    email: email.value.trim(),
+    password: password.value,
+    confirm_password: confirm_password.value
   };
+
   try {
     const res = await ApiClient.register(payload);
-    M.toast({html: 'Registered! Please login', classes: 'green lighten-1'});
-    setTimeout(()=> location.href = '/login', 900);
-  } catch (err) {
-    const msg = err.errors ? Object.values(err.errors).join(', ') : (err.error || 'Register failed');
-    M.toast({html: msg, classes: 'red lighten-1'});
+    M.toast({html: 'Registered! Please login.', classes: 'green'});
+    setTimeout(()=> location.href='/login', 1000);
+  } catch(err) {
+    const msg = err.errors ? Object.values(err.errors).join(", ") : err.error;
+    M.toast({html: msg, classes:'red'});
   }
 });
 </script>
-</body></html>
+
+</body>
+</html>

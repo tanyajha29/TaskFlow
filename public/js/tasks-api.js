@@ -33,15 +33,19 @@ const ApiClient = (function() {
     if (!res.ok) throw await res.json();
     return res.json();
   }
-  async function createTask(title, description) {
-    const res = await fetch(`${apiBase}/tasks`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token() },
-      body: JSON.stringify({ title, description })
-    });
-    if (!res.ok) throw await res.json();
-    return res.json();
-  }
+  async function createTask(title, description, status = 'Pending') {
+  const res = await fetch(`${apiBase}/tasks`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token()
+    },
+    body: JSON.stringify({ title, description, status })
+  });
+  if (!res.ok) throw await res.json();
+  return res.json();
+}
+
   async function updateTask(id, changes) {
     const res = await fetch(`${apiBase}/tasks/${id}`, {
       method: 'PUT',

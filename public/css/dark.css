@@ -1,0 +1,144 @@
+/* Background Gradient */
+.gradient-bg {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+}
+
+/* Dark background */
+.dark-bg {
+  background: #0d1117;
+  min-height: 100vh;
+  color: #fff;
+}
+
+/* Card styling */
+.dark-card {
+  background: #161b22 !important;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+/* Input fields */
+input,
+label {
+  color: #e6edf3 !important;
+}
+
+input:focus {
+  border-bottom: 1px solid #64b5f6 !important;
+  box-shadow: 0 1px 0 0 #64b5f6 !important;
+}
+
+/* Form card width */
+.form-card {
+  max-width: 450px;
+  margin: 40px auto;
+}
+
+/* Hover shadow */
+.hoverable:hover {
+  box-shadow: 0px 4px 20px rgba(100, 181, 246, 0.4) !important;
+}
+/* Task cards */
+.dark-task-card {
+  background: #161b22;
+  padding: 18px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  color: #e6edf3;
+  border-left: 4px solid #2a5298;
+  transition: 0.2s ease;
+}
+
+.dark-task-card:hover {
+  box-shadow: 0 4px 20px rgba(100, 181, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+.task-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.task-actions {
+  margin-top: 10px;
+}
+
+/* Modal */
+.modal.dark-card {
+  background: #161b22 !important;
+  color: #fff;
+  border-radius: 12px;
+}
+
+/* Floating button shadow */
+.fixed-action-btn .btn-floating {
+  box-shadow: 0 4px 20px rgba(100,181,246,0.3);
+}
+
+
+
+
+
+/* Task card styling */
+.task-card {
+  background: #161b22 !important;
+  border-radius: 14px;
+  padding: 10px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.task-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(100, 181, 246, 0.25);
+}
+
+/* Title + Status layout */
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+/* Status badge */
+.task-status {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Status colors */
+.task-status.pending {
+  background: #ffca28;
+  color: #000;
+}
+
+.task-status.done {
+  background: #66bb6a;
+  color: white;
+}
+
+.task-status.progress {
+  background: #42a5f5;
+  color: white;
+}
+
+/* Description */
+.task-desc {
+  color: #b8c2cc;
+  margin: 10px 0 15px;
+}
+
+/* Buttons */
+.task-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}

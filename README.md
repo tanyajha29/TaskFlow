@@ -29,5 +29,4 @@ npm run dev
 - JWT returned on login; frontend stores token in localStorage and sends Authorization header for API calls.
 - Replace `JWT_SECRET` in `.env` with a strong secret for production.
 
-## Commit history (recommended)
-See `docs/commits.txt` for suggested commit messages and order.
+

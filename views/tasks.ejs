@@ -1,50 +1,137 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Tasks</title><link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet"><link rel="stylesheet" href="/css/material.css"></head><body>
-<nav class="blue darken-2"><div class="nav-wrapper container"><a href="/" class="brand-logo">TaskFlow</a><ul class="right"><li><a href="/login">Login</a></li></ul></div></nav>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Dashboard | TaskFlow</title>
 
-<main class="container" style="margin-top:20px">
-  <div class="row">
-    <div class="col s12 m8">
-      <div class="card"><div class="card-content"><span class="card-title">Tasks</span>
-        <div id="tasksList">Loading…</div>
-        <hr>
-        <div class="input-field"><input id="newTitle"><label for="newTitle">Title</label></div>
-        <div class="input-field"><textarea id="newDesc" class="materialize-textarea"></textarea><label for="newDesc">Description</label></div>
-        <button id="createBtn" class="btn">Add task</button>
-      </div></div>
+  <!-- Materialize -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+  <!-- Dashboard Theme CSS -->
+  <link rel="stylesheet" href="/css/dark-dashboard.css">
+</head>
+
+<body class="dark-bg">
+
+  <!-- NAVBAR -->
+  <nav class="nav-wrapper gradient-bg">
+    <div class="container">
+      <a href="/" class="brand-logo">TaskFlow</a>
+      <ul class="right">
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container dashboard-container">
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="user-pill">
+          <div class="avatar">TF</div>
+          <div class="meta">
+            <div class="name">Tanya Jha</div>
+            <div class="handle">@jhatanya211</div>
+          </div>
+        </div>
+
+        <ul class="menu">
+          <li class="active">My Tasks</li>
+          <li>Projects</li>
+          <li>Calendar</li>
+          <li>Analytics</li>
+          <li>Settings</li>
+        </ul>
+
+        <div class="sidebar-footer">
+          <small>TaskFlow • © 2025</small>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center: Calendar area -->
+    <section class="center-panel">
+      <div class="panel-top">
+        <h5 class="white-text">My Taskboard</h5>
+        <div class="actions">
+          <a class="btn-flat white-text" id="viewToggle">Calendar View</a>
+          <a class="btn-floating btn-small gradient-bg modal-trigger" href="#addTaskModal"><i class="material-icons">add</i></a>
+        </div>
+      </div>
+
+      <div class="calendar">
+        <!-- weekday header -->
+        <div class="calendar-row calendar-header">
+          <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
+        </div>
+
+        <!-- grid (6 rows x 7 cols) -->
+        <div id="calendarGrid" class="calendar-grid"></div>
+      </div>
+    </section>
+
+    <!-- Right: Recent tasks + progress -->
+    <aside class="right-panel">
+      <div class="card small-card">
+        <div class="card-content">
+          <span class="card-title">Recent Tasks</span>
+          <ul id="recentList" class="recent-list"></ul>
+        </div>
+      </div>
+
+      <div class="card small-card">
+        <div class="card-content">
+          <span class="card-title">Daily Progress</span>
+          <div class="progress-wrap">
+            <div id="progressChart" class="progress-chart">—</div>
+            <div id="progressText" class="progress-text">0 / 0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card small-card">
+        <div class="card-content">
+          <span class="card-title">Quick Filters</span>
+          <div class="chip" id="filterAll">All</div>
+          <div class="chip" id="filterPending">Pending</div>
+          <div class="chip" id="filterProgress">In Progress</div>
+          <div class="chip" id="filterDone">Done</div>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Add Task Modal -->
+  <div id="addTaskModal" class="modal dark-card">
+    <div class="modal-content">
+      <h5>Create Task</h5>
+      <div class="input-field">
+        <input id="taskTitle" type="text"><label for="taskTitle">Title</label>
+      </div>
+      <div class="input-field">
+        <textarea id="taskDesc" class="materialize-textarea"></textarea><label for="taskDesc">Description</label>
+      </div>
+      <div class="input-field">
+        <select id="taskStatus">
+          <option value="Pending" selected>Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Done">Done</option>
+        </select>
+        <label>Status</label>
+      </div>
+
+      <div class="right">
+        <button id="createTaskBtn" class="btn gradient-bg">Create</button>
+      </div>
     </div>
   </div>
-</main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script src="/js/tasks-api.js"></script>
-<script>
-async function loadTasks(){
-  const list = document.getElementById('tasksList');
-  list.innerHTML = 'Loading...';
-  try {
-    const tasks = await ApiClient.fetchTasks();
-    if (!tasks.length) { list.innerHTML = '<p>No tasks yet</p>'; return; }
-    list.innerHTML = '';
-    tasks.forEach(t=>{
-      const card = document.createElement('div'); card.className='card task-card';
-      card.innerHTML = `<div class="card-content"><span class="card-title">${t.title}</span><p>${t.description||''}</p><div class="right"><a class="btn-small grey" data-id="${t._id}" data-act="edit">Edit</a> <a class="btn-small red" data-id="${t._id}" data-act="del">Delete</a></div></div>`;
-      list.appendChild(card);
-    });
-  } catch(e) { M.toast({html: e.error || 'Failed to load tasks', classes: 'red'}); list.innerHTML='Error loading tasks'; }
-}
-document.getElementById('createBtn').addEventListener('click', async ()=>{
-  const title=document.getElementById('newTitle').value.trim(); const desc=document.getElementById('newDesc').value.trim();
-  if(!title){ M.toast({html:'Title required', classes:'red'}); return; }
-  try{ await ApiClient.createTask(title,desc); M.toast({html:'Created', classes:'green'}); document.getElementById('newTitle').value=''; document.getElementById('newDesc').value=''; loadTasks(); }catch(err){ M.toast({html:err.error||'Create failed', classes:'red'}); }
-});
-document.addEventListener('click', async (e)=>{
-  const btn = e.target.closest('a[data-act]');
-  if(!btn) return;
-  const id = btn.dataset.id;
-  const act = btn.dataset.act;
-  if(act==='del' && confirm('Delete?')){ try{ await ApiClient.deleteTask(id); M.toast({html:'Deleted', classes:'green'}); loadTasks(); }catch(err){ M.toast({html:err.error||'Delete failed', classes:'red'}); } }
-  if(act==='edit'){ const newTitle=prompt('Title', btn.closest('.card').querySelector('.card-title').innerText); if(newTitle===null) return; const newDesc=prompt('Description',''); try{ await ApiClient.updateTask(id,{title:newTitle,description:newDesc}); M.toast({html:'Updated', classes:'green'}); loadTasks(); }catch(err){ M.toast({html:err.error||'Update failed', classes:'red'}); } }
-});
-document.addEventListener('DOMContentLoaded', ()=>{ M.updateTextFields(); loadTasks(); });
-</script>
-</body></html>
+  <!-- Materialize + icons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="/js/tasks-api.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
