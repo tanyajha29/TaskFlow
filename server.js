@@ -14,7 +14,7 @@ const storagePath = path.join(__dirname, 'data', 'storage.json');
 
 // Home: show add-task form
 app.get('/', (req, res) => {
-  res.render('index', { errors: [] , task: {} });
+  res.render('index', { errors: [], task: {} });
 });
 
 // Handle add-task (server-side minimal validation + save to storage.json)

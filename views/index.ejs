@@ -7,6 +7,7 @@
   <!-- Materialize CSS CDN -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/material.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body class="grey lighten-4">
 
@@ -58,7 +59,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
   <script>
-    // Simple client-side validation
+    // Simple client-side validation using Materialize toast
     function validateForm() {
       const title = document.getElementById('title').value.trim();
       if (title.length < 3) {
@@ -68,7 +69,7 @@
       return true;
     }
 
-    // Initialize Materialize components if needed
+    // Initialize Materialize components
     document.addEventListener('DOMContentLoaded', function() {
       M.updateTextFields();
     });
