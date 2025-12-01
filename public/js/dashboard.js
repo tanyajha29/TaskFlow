@@ -139,22 +139,28 @@ function renderProgress(tasks) {
 // Create new task
 document.getElementById('createTaskBtn').addEventListener('click', async () => {
   const title = document.getElementById('taskTitle').value.trim();
-  const desc = document.getElementById('taskDesc').value.trim();
+  const description = document.getElementById('taskDesc').value.trim();
   const status = document.getElementById('taskStatus').value || 'Pending';
-  if (!title) return M.toast({html:'Title required', classes:'red'});
+
+  if (!title) return M.toast({ html: 'Title required', classes: 'red' });
+
   try {
-    await ApiClient.createTask({ title,  desc, status }); // adjust based on your ApiClient.createTask signature
-    M.toast({html:'Created', classes:'green'});
+    await ApiClient.createTask(title, description, status); // ← FIXED
+    M.toast({ html: 'Created', classes: 'green' });
+
     const modal = M.Modal.getInstance(document.getElementById('addTaskModal'));
     modal.close();
+
     document.getElementById('taskTitle').value = '';
     document.getElementById('taskDesc').value = '';
     M.updateTextFields();
+
     await refreshAll();
   } catch (e) {
-    M.toast({html: e.error || 'Create failed', classes:'red'});
+    M.toast({ html: e.error || 'Create failed', classes: 'red' });
   }
 });
+
 
 // filters
 document.getElementById('filterAll').addEventListener('click', ()=> refreshAll());

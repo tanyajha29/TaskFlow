@@ -2,6 +2,7 @@ const express = require('express');
 const Task = require('../models/task');
 const auth = require('../middleware/authMiddleware');
 const router = express.Router();
+const taskController = require('../controllers/taskController');    
 
 /* GET /api/tasks - user's tasks */
 router.get('/tasks', auth, async (req, res) => {

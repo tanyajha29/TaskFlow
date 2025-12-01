@@ -2,134 +2,111 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Dashboard | TaskFlow</title>
+  <title>Week Scheduler | TaskFlow</title>
 
-  <!-- Materialize -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
-
-  <!-- Dashboard Theme CSS -->
-  <link rel="stylesheet" href="/css/dark-dashboard.css">
+  <link rel="stylesheet" href="/css/week-dashboard.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body class="dark-bg">
 
-  <!-- NAVBAR -->
+  <!-- TOP NAV -->
   <nav class="nav-wrapper gradient-bg">
-    <div class="container">
+    <div class="container nav-inner">
       <a href="/" class="brand-logo">TaskFlow</a>
-      <ul class="right">
-        <li><a href="/profile">Profile</a></li>
-        <li><a href="/logout">Logout</a></li>
-      </ul>
+      <div class="nav-right">
+        <div id="weekRange" class="white-text"></div>
+        <a id="prevWeek" class="btn-flat white-text"><i class="material-icons">chevron_left</i></a>
+        <a id="nextWeek" class="btn-flat white-text"><i class="material-icons">chevron_right</i></a>
+        <a id="todayBtn" class="btn-flat white-text">Today</a>
+        <a id="addQuick" class="btn-floating btn-small gradient-bg" title="Add quick task"><i class="material-icons">add</i></a>
+      </div>
     </div>
   </nav>
 
-  <main class="container dashboard-container">
+  <!-- MAIN -->
+  <main class="container week-container">
 
-    <!-- Left Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-inner">
-        <div class="user-pill">
-          <div class="avatar">TF</div>
-          <div class="meta">
-            <div class="name">Tanya Jha</div>
-            <div class="handle">@jhatanya211</div>
-          </div>
-        </div>
-
-        <ul class="menu">
-          <li class="active">My Tasks</li>
-          <li>Projects</li>
-          <li>Calendar</li>
-          <li>Analytics</li>
-          <li>Settings</li>
-        </ul>
-
-        <div class="sidebar-footer">
-          <small>TaskFlow • © 2025</small>
-        </div>
+    <!-- STATS (top) -->
+    <section class="stats-row">
+      <div class="stat-card">
+        <div class="stat-number" id="statTotal">0</div>
+        <div class="stat-label">Total</div>
       </div>
-    </aside>
-
-    <!-- Center: Calendar area -->
-    <section class="center-panel">
-      <div class="panel-top">
-        <h5 class="white-text">My Taskboard</h5>
-        <div class="actions">
-          <a class="btn-flat white-text" id="viewToggle">Calendar View</a>
-          <a class="btn-floating btn-small gradient-bg modal-trigger" href="#addTaskModal"><i class="material-icons">add</i></a>
-        </div>
+      <div class="stat-card">
+        <div class="stat-number" id="statPending">0</div>
+        <div class="stat-label">Pending</div>
       </div>
-
-      <div class="calendar">
-        <!-- weekday header -->
-        <div class="calendar-row calendar-header">
-          <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
-        </div>
-
-        <!-- grid (6 rows x 7 cols) -->
-        <div id="calendarGrid" class="calendar-grid"></div>
+      <div class="stat-card">
+        <div class="stat-number" id="statProgress">0</div>
+        <div class="stat-label">In Progress</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="statDone">0</div>
+        <div class="stat-label">Done</div>
       </div>
     </section>
 
-    <!-- Right: Recent tasks + progress -->
-    <aside class="right-panel">
-      <div class="card small-card">
-        <div class="card-content">
-          <span class="card-title">Recent Tasks</span>
-          <ul id="recentList" class="recent-list"></ul>
-        </div>
+    <!-- WEEK SCHEDULER -->
+    <section class="scheduler">
+
+      <!-- header: days -->
+      <div class="timegrid header">
+        <div class="time-col head-col"></div>
+        <div id="dayHeaders" class="days-row"></div>
       </div>
 
-      <div class="card small-card">
-        <div class="card-content">
-          <span class="card-title">Daily Progress</span>
-          <div class="progress-wrap">
-            <div id="progressChart" class="progress-chart">—</div>
-            <div id="progressText" class="progress-text">0 / 0</div>
-          </div>
-        </div>
+      <!-- grid: time slots -->
+      <div id="timeGrid" class="timegrid body">
+        <div class="time-col left-col"></div>
+        <div id="slotsGrid" class="slots-grid"></div>
       </div>
-
-      <div class="card small-card">
-        <div class="card-content">
-          <span class="card-title">Quick Filters</span>
-          <div class="chip" id="filterAll">All</div>
-          <div class="chip" id="filterPending">Pending</div>
-          <div class="chip" id="filterProgress">In Progress</div>
-          <div class="chip" id="filterDone">Done</div>
-        </div>
-      </div>
-    </aside>
-
+    </section>
   </main>
 
-  <!-- Add Task Modal -->
-  <div id="addTaskModal" class="modal dark-card">
-    <div class="modal-content">
-      <h5>Create Task</h5>
-      <div class="input-field">
-        <input id="taskTitle" type="text"><label for="taskTitle">Title</label>
-      </div>
-      <div class="input-field">
-        <textarea id="taskDesc" class="materialize-textarea"></textarea><label for="taskDesc">Description</label>
-      </div>
-      <div class="input-field">
-        <select id="taskStatus">
-          <option value="Pending" selected>Pending</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Done">Done</option>
-        </select>
-        <label>Status</label>
+  <!-- floating Add/Edit Task Card -->
+  <div id="taskCard" class="task-card hidden">
+    <div class="task-card-inner">
+      <div class="task-card-header">
+        <h6 id="cardTitle">Add Task</h6>
+        <button id="closeCard" class="close-btn"><i class="material-icons">close</i></button>
       </div>
 
-      <div class="right">
-        <button id="createTaskBtn" class="btn gradient-bg">Create</button>
+      <div class="field">
+        <input id="cardTitleInput" type="text" placeholder="Task title">
+      </div>
+
+      <div class="field">
+        <textarea id="cardDescInput" class="materialize-textarea" placeholder="Description"></textarea>
+      </div>
+
+      <div class="row small-fields">
+        <div class="col s6">
+          <input id="cardDate" type="date">
+        </div>
+        <div class="col s6">
+          <input id="cardTime" type="time">
+        </div>
+      </div>
+
+      <div class="row small-fields">
+        <div class="col s6">
+          <select id="cardStatus">
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Done">Done</option>
+          </select>
+        </div>
+        <div class="col s6 right-align">
+          <button id="saveTask" class="btn gradient-bg">Save</button>
+          <button id="deleteTask" class="btn-flat red-text hide">Delete</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Materialize + icons -->
+  <!-- Materialize + client scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="/js/tasks-api.js"></script>
   <script src="/js/dashboard.js"></script>
